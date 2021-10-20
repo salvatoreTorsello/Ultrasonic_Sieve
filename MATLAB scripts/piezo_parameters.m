@@ -4,12 +4,19 @@ b = tf1.Denominator;
 
 Cp = 2e-9;
 
-syms L C R
+syms L C
 
-eqn2 = R / (L * Cp)             == a(2);
-eqn3 = 1 / (L * C * Cp)         == a(3);
+eqn1 = wn_p^2 == (C + Cp)/(L * C * Cp);
+eqn2 = wn_z^2 == 1 / (L * C);
 
-eqn4 = R / L                    == b(2);
-eqn5 = (C + Cp) / (L * C * Cp)  == b(3);
+S = solve([eqn1, eqn2], [L, C]);
+L = double(S.L)
+C = double(S.C)
 
-S = solve([eqn2, eqn3, eqn4, eqn5], [L, C, R]);
+syms R
+
+eqn = R / L == 2* zeta_p* wn_p;
+S = solve(eqn, R);
+R = double(S)
+
+clear a b eqn1 eqn2 eqn S

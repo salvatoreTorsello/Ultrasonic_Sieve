@@ -29,4 +29,5 @@ noInFiles = size(inputPath,1);
                 
         saveAtlasData(data,output);
     end
+    clear name
 end
