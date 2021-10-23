@@ -1,7 +1,7 @@
 function converter
 
 % List .CSV files in input folder
-inputPath = dir(strcat('Acquisitions/input/*.csv'));
+inputPath = dir(strcat('Acquisitions/input/2021_10_21 US3 with cable/*.csv'));
 noInFiles = size(inputPath,1);
 
 % Loop through the files and import .CSV to Matlab
@@ -25,7 +25,7 @@ noInFiles = size(inputPath,1);
             varName = header{1,1}{1,c}{:};
             data.(varName) = rawData{1,c};
         end
-        output = ['Acquisitions/output/', strrep(inputPath(n).name, '.csv', '_Session.mat')];
+        output = ['Acquisitions/output/2021_10_21 US3 with cable/', strrep(inputPath(n).name, '.csv', '_Session.mat')];
                 
         saveAtlasData(data,output);
     end

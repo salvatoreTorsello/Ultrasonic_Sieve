@@ -1,8 +1,5 @@
-%% Tranfer Function upload
-a = tf1.Numerator;
-b = tf1.Denominator;
-
-Cp = 2e-9;
+%% Parameters estimation
+Cp = 5.5e-9;
 
 syms L C
 
