@@ -1,4 +1,4 @@
-%% Import DATA for US3 without Cable and Without Sieve %%
+%% Import DATA for US2 without Cable and Without Sieve %%
 
 US2_woC.data = importData("C:\git\Ultrasonic_Sieve\Acquisitions\US2\US2_20_40_woC_woS.csv", [2, Inf]);
 Ts = US2_woC.data.TIME(2) - US2_woC.data.TIME(1);
@@ -17,8 +17,8 @@ nz = 2;
 opt = tfestOptions('Display','on');
 
 %Loading of the data
-US3_20_40_data = iddata(US2_woC.data.Vpiezo, US2_woC.data.Ipiezo, Ts);
-US2_woC.tf = tfest(US3_20_40_data,np, nz, opt);
+US2_woC.dataObj = iddata(US2_woC.data.Vpiezo, US2_woC.data.Ipiezo, Ts);
+US2_woC.tf = tfest(US2_woC.dataObj,np, nz, opt);
 US2_woC.tf = idtf(US2_woC.tf.num,US2_woC.tf.den);
 
 US2_woC.tf
@@ -105,7 +105,7 @@ US2_woC.Y = freqresp(US2_woC.tf, US2_woC.X, 'Hz');
 US2_woC.module = abs(squeeze(US2_woC.Y(1,1,:))); US2_woC.module = US2_woC.module';
 US2_woC.phase = angle(squeeze(US2_woC.Y(1,1,:))); US2_woC.phase = US2_woC.phase';
     
-figure();
+figure('NumberTitle', 'off', 'Name', 'US2 without cable');
 subplot(2,1,1)
 semilogx(US2_woC.X,US2_woC.module)
 xlabel('Frequency [Hz]');
@@ -124,10 +124,10 @@ xlabel('Frequency [Hz]');
 ylabel('Phase [deg]');
 
 hold on;grid on;
-sgtitle("Piezo Impedance Transfer Function (fn_p = "+num2str(round(US2_woC.fn_p))+" Hz ; fn_z = "+num2str(round(US2_woC.fn_z))+" Hz)");
+sgtitle("Piezo US2 Impedance Transfer Function without cable (fn_p = "+num2str(round(US2_woC.fn_p))+" Hz ; fn_z = "+num2str(round(US2_woC.fn_z))+" Hz)");
 
 %% Message dialog box Cp R L C wz wp 
-msg  = "US3 woC without cable";
+msg  = "US2 without cable";
 emptyline = "";
 msg1 = "Cp = "  + num2str(US2_woC.Cp)   + " F";
 msg2 = "R = "   + num2str(US2_woC.R)    + " Ohm";
@@ -135,10 +135,10 @@ msg3 = "L = "   + num2str(US2_woC.L)    + " H";
 msg4 = "C = "   + num2str(US2_woC.C)    + " C";
 msg5 = "poles:   fn = "  + num2str(round(US2_woC.fn_p))   + " Hz";
 msg6 = "zeroes: fn = "   + num2str(round(US2_woC.fn_z))   + " Hz";
-showmsgbox1 = msgbox({msg emptyline msg1 msg2 msg3 msg4 emptyline msg5 msg6},'US3');
+showmsgbox1 = msgbox({msg emptyline msg1 msg2 msg3 msg4 emptyline msg5 msg6},'US2');
 th1 = findall(showmsgbox1, 'Type', 'Text');                   %get handle to text within msgbox
 th1.FontSize = 10;  
 
 %% Clear worlspace
-clear US3_tf P G US3_data np nz US3 opt Ts msg emptyline msg1 msg2 msg3 msg4 th1 showmsgbox1 msg5 msg6 th2 showmsgbox2 start stop 
-clear alpha_p alpha_z and C eqn eqn1 eqn2 L labels Q_p Q_z R S S1 S2 S3 US3_20_40_data wd_p wd_z wn_p wn_z x y zeta_p zeta_z
+clear US2_tf P G US2_data np nz US2 opt Ts msg emptyline msg1 msg2 msg3 msg4 th1 showmsgbox1 msg5 msg6 th2 showmsgbox2 start stop 
+clear alpha_p alpha_z and C eqn eqn1 eqn2 L labels Q_p Q_z R S S1 S2 S3 US2_woC.dataObj wd_p wd_z wn_p wn_z x y zeta_p zeta_z

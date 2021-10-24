@@ -17,8 +17,8 @@ nz = 2;
 opt = tfestOptions('Display','on');
 
 %Loading of the data
-US3_20_40_data = iddata(US3_wC.data.Vpiezo, US3_wC.data.Ipiezo, Ts);
-US3_wC.tf = tfest(US3_20_40_data,np, nz, opt);
+US3_wC.dataObj = iddata(US3_wC.data.Vpiezo, US3_wC.data.Ipiezo, Ts);
+US3_wC.tf = tfest(US3_wC.dataObj,np, nz, opt);
 US3_wC.tf = idtf(US3_wC.tf.num,US3_wC.tf.den);
 
 US3_wC.tf
@@ -105,7 +105,7 @@ US3_wC.Y = freqresp(US3_wC.tf, US3_wC.X, 'Hz');
 US3_wC.module = abs(squeeze(US3_wC.Y(1,1,:))); US3_wC.module = US3_wC.module';
 US3_wC.phase = angle(squeeze(US3_wC.Y(1,1,:))); US3_wC.phase = US3_wC.phase';
     
-figure();
+figure('NumberTitle', 'off', 'Name', 'US3 with cable');
 subplot(2,1,1)
 semilogx(US3_wC.X,US3_wC.module)
 xlabel('Frequency [Hz]');
@@ -124,10 +124,10 @@ xlabel('Frequency [Hz]');
 ylabel('Phase [deg]');
 
 hold on;grid on;
-sgtitle("Piezo Impedance Transfer Function (fn_p = "+num2str(round(US3_wC.fn_p))+" Hz ; fn_z = "+num2str(round(US3_wC.fn_z))+" Hz)");
+sgtitle("Piezo US3 Impedance Transfer Function with cable (fn_p = "+num2str(round(US3_wC.fn_p))+" Hz ; fn_z = "+num2str(round(US3_wC.fn_z))+" Hz)");
 
 %% Message dialog box Cp R L C wz wp 
-msg  = "US3 woC without cable";
+msg  = "US3 with cable";
 emptyline = "";
 msg1 = "Cp = "  + num2str(US3_wC.Cp)   + " F";
 msg2 = "R = "   + num2str(US3_wC.R)    + " Ohm";
@@ -141,4 +141,4 @@ th1.FontSize = 10;
 
 %% Clear worlspace
 clear US3_tf P G US3_data np nz US3 opt Ts msg emptyline msg1 msg2 msg3 msg4 th1 showmsgbox1 msg5 msg6 th2 showmsgbox2 start stop 
-clear alpha_p alpha_z and C eqn eqn1 eqn2 L labels Q_p Q_z R S S1 S2 S3 US3_20_40_data wd_p wd_z wn_p wn_z x y zeta_p zeta_z
+clear alpha_p alpha_z and C eqn eqn1 eqn2 L labels Q_p Q_z R S S1 S2 S3 US3_wC.dataObj wd_p wd_z wn_p wn_z x y zeta_p zeta_z
